@@ -3,7 +3,9 @@ package com.example.jhonlp.todoapp.presentation.view.fragment;
 /**
  * Created by jhonlp on 02/12/2017.
  */
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,11 +20,12 @@ import com.example.jhonlp.todoapp.helpers.Utilities;
 import com.example.jhonlp.todoapp.presentation.presenter.LoginContract;
 import com.example.jhonlp.todoapp.presentation.presenter.LoginPresenter;
 import com.example.jhonlp.todoapp.presentation.view.activity.AuthActivity;
+import com.example.jhonlp.todoapp.presentation.view.activity.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends Fragment implements LoginContract.View {
+public class LoginFragment extends Fragment implements LoginContract.View, View.OnClickListener {
 
     private LoginContract.UserActionListener mActionListener;
     private TextInputLayout tilEmail;
@@ -30,7 +33,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     private TextView tvForgotPassword;
     private Switch swRemember;
     private Button btnStart;
-    private Button btnHasNotAccount;
+    private Button btnNotHaveAccount ;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -53,19 +56,36 @@ public class LoginFragment extends Fragment implements LoginContract.View {
         tvForgotPassword = view.findViewById(R.id.tvForgotPassword);
         swRemember = view.findViewById(R.id.swRemember);
         btnStart = view.findViewById(R.id.btnStart);
-        btnHasNotAccount = view.findViewById(R.id.btnHasNotAccount);
+        btnNotHaveAccount = view.findViewById(R.id.btnNotHaveAccount);
 
+        btnStart.setOnClickListener(this);
+        btnNotHaveAccount.setOnClickListener(this);
+        tvForgotPassword.setOnClickListener(this);
         return view;
     }
+
+
 
     @Override
     public void goToSignUpFragment() {
         AuthActivity authActivity =  (AuthActivity) getActivity();
-        authActivity.replaceFragment(SignUpFragment.getInstance(), false);
+        authActivity.replaceFragment(SignUpFragment.getInstance(), true);
     }
 
     @Override
     public void goToMainActivity() {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToRecoveryPassword() {
+        RecoveryPasswordFragment recoveryPasswordFragment = RecoveryPasswordFragment.getInstance();
+        recoveryPasswordFragment.show(getFragmentManager(), null);
+    }
+
+
+    public void showMessageError(Exception error) {
+        Snackbar.make(getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
 
     }
 
@@ -77,7 +97,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
             boolean remember = swRemember.isChecked();
 
             if (Utilities.isEmpty(email)) {
-                //tilEmail.setError(getString(R.string.is_required));
+                tilEmail.setError("es requerido");
                 tilEmail.setEnabled(true);
                 result = false;
             } else {
@@ -86,7 +106,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
             }
 
             if (Utilities.isEmpty(password)) {
-                //tilPassword.setError(getString(R.string.is_required));
+                tilPassword.setError("es requerido");
                 tilPassword.setEnabled(true);
                 result = false;
             } else {
@@ -100,4 +120,21 @@ public class LoginFragment extends Fragment implements LoginContract.View {
 
         } catch (Exception e) {}
     }
+
+    @Override
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnStart:
+                onLogin();
+                break;
+            case R.id.btnNotHaveAccount:
+                goToSignUpFragment();
+                break;
+            case R.id.tvForgotPassword:
+                goToRecoveryPassword();
+                break;
+        }
+    }
+
 }

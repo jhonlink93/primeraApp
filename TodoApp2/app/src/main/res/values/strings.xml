@@ -19,4 +19,8 @@
     <string name="registrer">Registrarme</string>
     <string name="ya_tengo_cuenta">Ya tengo una cuenta</string>
     <string name="star_sesion">Iniciar sesión</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="is_required">es requerido</string>
 </resources>

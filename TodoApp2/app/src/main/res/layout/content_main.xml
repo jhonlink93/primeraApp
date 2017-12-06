@@ -5,14 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="co.devhack.todoapp.presentation.view.activity.MainActivity"
+    tools:context="com.example.jhonlp.todoapp.presentation.view.activity.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
 
-    <include layout="@layout/view_todo_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_editor_absoluteX="8dp"
-        app:layout_editor_absoluteY="8dp"></include>
+
 
 </android.support.constraint.ConstraintLayout>
